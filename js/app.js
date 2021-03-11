@@ -15,54 +15,80 @@
 
 /**
  * Define Global Variables
+
  *
 */
-  const allSections = document.querySelectorAll('section');
-  const unorderList = document.getElementById('navbar__list');
-
+let allSections ; //adding a global variable to know the name of section
+let  unorderList ;//adding a global variable to make link to the  section
 /**
  * End Global Variables
  * Start Helper Functions
  *
 */
+//create a createSectionFour function to create section 4 using js
 function createSectionFour(){
- let allcontainer = document.getElementById("adding-se");
-  let addingSection = document.createElement("section");
-  let addingH2 = document.createElement("h2");
-  let addingDiv = document.createElement("div");
-  let addingParag = document.createElement("p");
-  addingSection.setAttribute("id", "section4");
-  addingSection.setAttribute("data-nav", "Section 4");
-  addingDiv.classList.add("landing__container");
-  addingH2.innerHTML = "Section 4";
-  addingParag.appendChild(
+  let allcontainer = document.getElementById("adding-se"); // get the main container to adding the section inside it
+  let addingSection = document.createElement("section"); //create a new section
+  let addingH2 = document.createElement("h2"); //create a new h2 for the section
+  let addingDiv = document.createElement("div"); //create a new div
+  let addingParag = document.createElement("p"); // create a new paragraph
+  addingSection.setAttribute("id", "section4"); // set a new attribute to the new section
+  addingSection.setAttribute("data-nav", "Section 4"); //set a new attribute to new section
+  addingDiv.classList.add("landing__container"); // adding a new class to the div
+  addingH2.innerHTML = "Section 4"; // write section 4 word inside the h2
+  addingParag.appendChild( // append and put the content of section inside it
     document.createTextNode(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti."
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti."
     )
   );
-    addingDiv.appendChild(addingH2);
-    addingDiv.appendChild(addingParag);
-    addingSection.appendChild(addingDiv);
-    allcontainer.appendChild(addingSection);
+    addingDiv.appendChild(addingH2); // adding h2 to the div
+    addingDiv.appendChild(addingParag); // adding paragraph inside the div also
+    addingSection.appendChild(addingDiv); //adding the div inside the section
+    allcontainer.appendChild(addingSection); //adding the section inside the main container
 
-}
-function createNavBar() {
-  // Add links
-  for (i = 0; i < allSections.length; i++) {
+};
+createSectionFour(); // call the function
+ allSections = document.querySelectorAll('section'); // this a variable that call all section inside the page
+ unorderList = document.getElementById('navbar__list'); // this a varibale that call the  elements have a navbar__list id
+// the following function create a new nav bar and puth the name of all sections inside it and when you press on any section then they scroll to specific section
+function createListofSections() { // create a new function called createListofSections that create a navbar with all sections that included in the page
+  var count=0;
+  for (section of allSections) {
+      count++;
+       link = section.getAttribute('id');
+      sectionName = section.getAttribute('data-nav');
     newList = document.createElement("li");
-    newList.innerHTML =
-      '<a href ="#" class="menu__link " data-section="' +
-      allSections[i].getAttribute("id") +
-      '">' +
-      allSections[i].getAttribute("id") +
-      "</a>";
-    unorderList.appendChild(newList);
+    newList.innerHTML =` <a class='menu__link' id='${count}' href='#${link}'>${sectionName}</a>`; // put the link and name of section oinside the nav bar
+    unorderList.appendChild(newList); //put the li inside the ul
   }
 }
 
+createListofSections();// call the  createListofSections
 
-createSectionFour();
-createNavBar();
+function scroll(section){ // making a new  function to know the position of section
+return Math.floor(section.getBoundingClientRect().top);
+};
+function deleteActive(section){ // delete the hover from last section
+  section.classList.remove('your-active-class');
+document.getElementById(section.getAttribute('id').substr(7)).classList.remove('custom');
+};
+
+function putActive(focus,section){ // adding a active to specific section
+  if(focus){
+    section.classList.add('your-active-class');
+document.getElementById(section.getAttribute('id').substr(7)).classList.add('custom');
+  };
+};
+
+function hoverTheSection(){ // make a function to know what is the section when scrolling
+  for(section of allSections){
+let hoverElemnet =scroll(section);
+inviewport = ()=>hoverElemnet < 150 && hoverElemnet >=-150;
+deleteActive(section);
+putActive(inviewport(),section);
+  };
+};
+window.addEventListener('scroll',hoverTheSection);
 
 /**
  * End Helper Functions
@@ -90,15 +116,3 @@ createNavBar();
 // Scroll to section on link click
 
 // Set sections as active
-// function createListofSections() { // creating a function to add a sections name in nave bar
-//   for(section of allSections ){ // making loop on all sections to bring the sections and making functions on it
-//        let sectionName = section.getAttribute('data-nav'); // bring the sections name
-//        let  link = section.getAttribute('id');// making a link and i use the id because the id is unique
-//        listItem = document.createElement('li');
-//        listItem.innerHTML =` <a class='menu__link' href='#${link}'>${sectionName}</a>`;
-//        unorderList.appendChild(listItem);
-//   }
-// }
-//
-//
-// createListofSections();

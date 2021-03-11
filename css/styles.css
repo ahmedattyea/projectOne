@@ -224,3 +224,8 @@ section.your-active-class .landing__container::after {
 html{
   scroll-behavior: smooth;
 }
+
+.custom{
+  background-color: black;
+  color: white !important;
+}
